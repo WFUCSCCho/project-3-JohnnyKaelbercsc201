@@ -65,10 +65,25 @@ public class Proj3 {
     // Quick Sort
     public static <T extends Comparable> void quickSort(ArrayList<T> a, int left, int right) {
         // Finish Me
+        if (left < right) {
+            int pivIndex = partition(a, left, right);
+            quickSort(a, left, pivIndex - 1); //sort elements to left of pivot
+            quickSort(a, pivIndex + 1, right); //sort elements to right of pivot
+        }
     }
 
     public static <T extends Comparable> int partition (ArrayList<T> a, int left, int right) {
         // Finish Me
+        T pivot = a.get(right); //element on far right of array list assigned as pivot
+        int i = left - 1; //initializing index variable
+        for (int j = left; j < right; j++) {
+            if (a.get(j).compareTo(pivot) <= 0) {//compare each element to pivot
+                i++;
+                swap(a, i, j); //calling swap method to swap element at position i with element at position j
+            }
+        }
+        swap(a, i+1, right); //swapping pivot with element at i+1
+        return i + 1; //return current position of pivot
     }
 
     static <T> void swap(ArrayList<T> a, int i, int j) {
@@ -80,10 +95,34 @@ public class Proj3 {
     // Heap Sort
     public static <T extends Comparable> void heapSort(ArrayList<T> a, int left, int right) {
         // Finish Me
+        //create max heap
+        for (int i = (right-1)/2; i >= left; i--) { //begin on node that is not a leaf
+            heapify(a, i, right);
+        }
+        //sort
+        for(int i = right; i > left; i--) {
+            swap(a, left, i); //swap current root with end node
+            heapify(a, left, i-1); //heapify again
+        }
+
     }
 
     public static <T extends Comparable> void heapify (ArrayList<T> a, int left, int right) {
         // Finish Me
+        int largest = left; //index position of largest element
+        int leftChild = 2 * left + 1;
+        int rightChild = 2 * left + 2;
+        //comparing children to parent node...
+        if (leftChild <= right && a.get(leftChild).compareTo(a.get(largest)) > 0) {// if left child greater than largest, left child is now largest
+            largest = leftChild;
+        }
+        if (rightChild <= right && a.get(rightChild).compareTo(a.get(largest)) > 0) { // if right child is greater than largest, right child is now largest
+            largest = rightChild;
+        }
+        if (largest != left) { //if root is not largest, swap left node with it then heapify a recursively
+            swap(a, left, largest);
+            heapify(a, largest, right);
+        }
     }
 
     // Bubble Sort
