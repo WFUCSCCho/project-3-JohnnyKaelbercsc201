@@ -128,14 +128,42 @@ public class Proj3 {
     // Bubble Sort
     public static <T extends Comparable> int bubbleSort(ArrayList<T> a, int size) {
         // Finish Me
-        int comparisons;
+        int comparisons=0;
+        for (int i = 0; i < size-1; i++) {//outer loop for each iteration
+            for (int j = i+1; j < size-1-i; j++) {//inner loop for going down the line comparing and sorting
+                comparisons++;//comparisons # tracker
+                if (a.get(j).compareTo(a.get(j+1)) > 0) {//comparing adjacent elements if element at index j is larger than j+1 then swap
+                    swap(a, j, j+1);
+                }
+            }
+        }
         return comparisons; //return int number of comparisons
     }
 
     // Odd-Even Transposition Sort
     public static <T extends Comparable> int transpositionSort(ArrayList<T> a, int size) {
         // Finish Me
-        int comparisons;
+        int comparisons = 0;
+        boolean isSorted = false;
+        while (!isSorted) {
+            isSorted = true;
+            //sorting at odd indices
+            for (int i = 1; i < size - 1; i += 2) {
+                comparisons++;
+                if (a.get(i).compareTo(a.get(i + 1)) > 0) {
+                    swap(a, i, i + 1); //same as bubble sort
+                    isSorted = false;
+                }
+            }
+            //sorting at even indices
+            for (int i = 0; i < size - 1; i += 2) {
+                comparisons++;
+                if (a.get(i).compareTo(a.get(i + 1)) > 0) {
+                    swap(a, i, i + 1); //same as bubble sort
+                    isSorted = false;
+                }
+            }
+        }
         return comparisons; //return int number of comparisons
     }
 
