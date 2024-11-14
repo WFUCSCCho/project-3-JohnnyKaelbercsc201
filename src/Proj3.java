@@ -13,10 +13,53 @@ public class Proj3 {
     // Merge Sort
     public static <T extends Comparable> void mergeSort(ArrayList<T> a, int left, int right) {
         // Finish Me
+        if (left < right) {
+            int mid = (left + right) / 2;
+            //sort left half, right half, then merge sorted halves
+            mergeSort(a, left, mid);
+            mergeSort(a, mid + 1, right);
+            merge(a, left, mid, right);
+        }
+
     }
 
     public static <T extends Comparable> void merge(ArrayList<T> a, int left, int mid, int right) {
         // Finish Me
+        int n1 = mid - left + 1; //size of left subarray
+        int n2 = right - mid; //size of right subarray
+
+        ArrayList<T> L = new ArrayList<>(n1); //left temp array creation
+        ArrayList<T> R = new ArrayList<>(n2); //right temp array creation
+        for (int i = 0; i < n1; i++) { //filling in data for left sub-array
+            L.add(a.get(left + i));
+        }
+        for (int j = 0; j < n2; j++) {//"" for right sub-array
+            R.add(a.get(mid + j + 1));
+        }
+
+        //initializing positions for left, right, and original array lists respectively...
+        int i = 0; int j = 0; int k = left;
+        while (i < n1 && j < n2) { //while loop that merges the left and right sub-arrays if they contain values
+            if (L.get(i).compareTo(R.get(j)) <= 0) { //comparing values: if value in left is <= value in right...
+                a.set(k, L.get(i)); //place value in original array from left
+                i++;
+            }
+            else {
+                a.set(k, R.get(j));
+                j++;
+            }
+            k++;
+        }
+        while (i < n1) { //adding whatever values are left in the left array to original array
+            a.set(k, L.get(i));
+            i++;
+            k++;
+        }
+        while (j < n2) { //same for right array
+            a.set(k, R.get(j));
+            j++;
+            k++;
+        }
     }
 
     // Quick Sort
@@ -145,7 +188,7 @@ public class Proj3 {
             }
 
             System.out.println(listName);
-            analysispw.println(listName + " Number of Lines: " + list.size()); //writing to analysis txt file list name and number of lines
+            analysispw.append(listName + " Number of Lines: " + list.size() + "\n"); //writing to analysis txt file list name and number of lines
 
 
             //tracking running times for cases: Bubble, Merge, Quick, and Heap Sort
