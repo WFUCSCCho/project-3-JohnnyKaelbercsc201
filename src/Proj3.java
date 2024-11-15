@@ -1,3 +1,9 @@
+/**************************
+ * @file Proj3.java
+ * @brief This program includes sorting methods and the main that prints the different sorted cases of already sorted, shuffled, and reversed SleepData to analysis txt and sorted txt
+ * @author John Kaelber
+ * @date November 14, 2024
+ **************************/
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
