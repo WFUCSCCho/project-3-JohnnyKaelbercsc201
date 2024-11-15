@@ -7,8 +7,6 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class Proj3 {
-    private static java.util.Collections Collections;
-
     // Sorting Method declarations
     // Merge Sort
     public static <T extends Comparable> void mergeSort(ArrayList<T> a, int left, int right) {
@@ -20,7 +18,6 @@ public class Proj3 {
             mergeSort(a, mid + 1, right);
             merge(a, left, mid, right);
         }
-
     }
 
     public static <T extends Comparable> void merge(ArrayList<T> a, int left, int mid, int right) {
@@ -34,7 +31,7 @@ public class Proj3 {
             L.add(a.get(left + i));
         }
         for (int j = 0; j < n2; j++) {//"" for right sub-array
-            R.add(a.get(mid + j + 1));
+            R.add(a.get(mid + 1 + j));
         }
 
         //initializing positions for left, right, and original array lists respectively...
@@ -129,14 +126,21 @@ public class Proj3 {
     public static <T extends Comparable> int bubbleSort(ArrayList<T> a, int size) {
         // Finish Me
         int comparisons=0;
+        boolean swapped;
         for (int i = 0; i < size-1; i++) {//outer loop for each iteration
-            for (int j = i+1; j < size-1-i; j++) {//inner loop for going down the line comparing and sorting
+            swapped = false;
+            for (int j = 0; j < size-i-1; j++) {//inner loop for going down the line comparing and sorting
                 comparisons++;//comparisons # tracker
                 if (a.get(j).compareTo(a.get(j+1)) > 0) {//comparing adjacent elements if element at index j is larger than j+1 then swap
                     swap(a, j, j+1);
+                    swapped = true;
                 }
             }
+            if (!swapped) {
+                break;
+            }
         }
+
         return comparisons; //return int number of comparisons
     }
 
@@ -221,7 +225,7 @@ public class Proj3 {
         PrintWriter sortedpw = new PrintWriter(new FileWriter("sorted.txt")); //overwrites sorted.txt file each time
 
         //making analysis.txt file human-readable with description of info order of what is being printed
-        analysispw.println("Sorting Algorithm, Array List Format, Number of Lines, Running Time (ns), Comparisons");
+        analysispw.println("Sorting Algorithm, Running Time (ns), Comparisons");
 
         //creating sorted, shuffled, and reversed array lists of SleepData objects
         ArrayList<SleepData> sortedArrayList = new ArrayList<>(sleepDataArrayList);
@@ -254,8 +258,8 @@ public class Proj3 {
                 listName = "error";
             }
 
-            System.out.println(listName);
-            analysispw.append(listName + " Number of Lines: " + list.size() + "\n"); //writing to analysis txt file list name and number of lines
+            System.out.println("List Type: " + listName + "; Number of Lines: " + list.size());
+            analysispw.append("List Type: "+ listName + "; Number of Lines: " + list.size() + "\n"); //writing to analysis txt file list name and number of lines
 
 
             //tracking running times for cases: Bubble, Merge, Quick, and Heap Sort
@@ -274,7 +278,7 @@ public class Proj3 {
                     break;
                 case "merge":
                     long mergeStartTime = System.nanoTime();
-                    mergeSort(list, 0, list.size()); //list, left, right
+                    mergeSort(list, 0, list.size()-1); //list, left, right
                     long mergeEndTime = System.nanoTime();
                     long mergeTotalTime = mergeEndTime - mergeStartTime;
 
@@ -286,7 +290,7 @@ public class Proj3 {
                     break;
                 case "quick":
                     long quickStartTime = System.nanoTime();
-                    quickSort(list, 0, list.size()); //list, left, right
+                    quickSort(list, 0, list.size()-1); //list, left, right
                     long quickEndTime = System.nanoTime();
                     long quickTotalTime = quickEndTime - quickStartTime;
 
@@ -297,7 +301,7 @@ public class Proj3 {
                     break;
                 case "heap":
                     long heapStartTime = System.nanoTime();
-                    heapSort(list, 0, list.size()); //list, left, right
+                    heapSort(list, 0, list.size()-1); //list, left, right
                     long heapEndTime = System.nanoTime();
                     long heapTotalTime = heapEndTime - heapStartTime;
 
@@ -327,9 +331,8 @@ public class Proj3 {
             }
 
         }
-
-
-        
-
+        analysispw.close();
+        sortedpw.flush();
+        sortedpw.close();
     }
 }
